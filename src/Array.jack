@@ -1,0 +1,9 @@
+class Array {
+    function Array new(int size)  {
+        // выделить память x2 2 байта на один элемент
+    }
+
+    method void dispose() {
+        // очищает память
+    }
+}

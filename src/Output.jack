@@ -1,0 +1,25 @@
+class Output {
+    function void moveCursor(int i, int j) {
+
+    }
+
+    function void printChar(char ch) {
+
+    }
+
+    function void printString(String s) {
+
+    }
+
+    function void printInt(int i) {
+
+    }
+
+    function void println() {
+
+    }
+
+    function void backSpace() {
+        
+    }
+}
