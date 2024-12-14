@@ -1,0 +1,60 @@
+class String {
+    field int maxLength, length;
+    field Array str;
+    
+    constructor new(int len) {
+        let maxLength = len;
+        let str = new Array(len);
+        let length = 0;
+        
+        return this;
+    }
+
+    method void dispose() {
+        // утилизирует(удаляет из памяти строку)
+    }
+
+
+    method int length() {
+        return this.length;
+    }
+
+    method char charAt(int i) {
+        return str[i];
+    }
+
+    method void setCharAt(int i, char c) {
+        let this.str[i] = c;
+    }
+
+    method String appendChar(char c) {
+        let this.length = this.length + 1;
+        let str[this.length] = c;
+    }
+
+    method void eraseLastChar() {
+        let this.length = this.length - 1;
+    }
+
+    // нужна таблица символов
+    method int intValue() {
+        // возвращает целочисленное значение строки, 
+        // пока не будет обнаружен нецифровой символ
+    }
+
+    method void setInt(int val) {
+        
+    }
+
+    function char backSpace() {
+        return '\';
+    }
+
+    function char doubleQuote() {
+        return '\"';
+    }
+
+    fuction char newLine() {
+        return "\n"
+    }
+}

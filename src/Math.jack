@@ -1,0 +1,13 @@
+class Math {
+    function int multiply(int x, int y) {
+        return -1;
+    }
+
+    function int devide(int x, int y) {
+        return -1;
+    }
+
+    function int sqrt(int x) {
+        return -1;
+    }
+}
