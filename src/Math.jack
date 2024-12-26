@@ -1,13 +1,182 @@
 class Math {
+    static int biteArraySize; // 15
+    static int digitBitSize; // 16
+    static Array powersOfTwo;
+
+    function void init() {
+        var int i, j;
+        let biteArraySize = 15;
+        let digitBitSize = 16;
+
+        let powersOfTwo = Array.new(biteArraySize);
+        let powersOfTwo[0] = 1;
+        
+        let i = 1;
+        while (i < biteArraySize) {
+            let powersOfTwo[i] = powersOfTwo[i - 1] + powersOfTwo[i - 1];
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    // пока в тупую
     function int multiply(int x, int y) {
-        return -1;
+        return Math.multiplyBitArrays(
+            Math.getBitArray(x), 
+            Math.getBitArray(y),
+            Math.getIntBitLength(y)
+        );
     }
 
-    function int devide(int x, int y) {
-        return -1;
+    // x,y 16bit
+    function int multiplyBitArrays(Array x, Array y, int yInt) {
+        var int yLen, i, j, sum;
+        var Array supportArrays, tmp; // 15bit
+
+        let yLen = Math.getIntBitLength(yInt);
+        let supportArrays = Array.new(yLen);
+
+        let i = 0;
+        while (i < yLen) {
+            let supportArrays[i] = Array.new(biteArraySize);
+            // init zero
+            let j = 0;
+            let tmp = supportArrays[i];
+            while (j < biteArraySize) {
+                let tmp[j] = 0;
+                let j = j + 1;
+            }
+
+            let j = 1;
+            while ((j + i) < digitBitSize) {
+                let tmp = supportArrays[i];
+                
+                let sum = j + i;
+                let sum = sum - 1;
+
+                let tmp[sum] = x[j];
+                let j = j + 1;
+            }
+
+            let i = i + 1;
+        }
+
+        let sum = 0;
+        let i = 0;
+        while (i < (yLen + 1)) {
+            if (y[i + 1]) {
+                let sum = sum + Math.arrayToInt(supportArrays[i], digitBitSize);
+            }
+            let i = i + 1;
+        }
+
+        // negative
+        let i = x[0] + y[0];
+        if ((i > 0) & (i < 2)) {
+            let sum = -sum;
+        }
+
+        return sum;
     }
 
-    function int sqrt(int x) {
-        return -1;
+    // function int devide(int x, int y) {
+    //     var int res, sum;
+    //     var Array xArr, yArr;
+
+    //     let xArr = Math.getBitArray(x);
+    //     let yArr = Math.getBitArray(y);
+
+    //     let res = 0;
+    //     let sum = x;
+
+    //     while (sum > y) {
+    //         let sum = sum - y;
+    //         let res = res + 1;
+    //     }
+
+    //     return res;
+    // }
+
+    // function int sqrt(int x) {
+    //     return -1;
+    // }
+
+    // bitInt 15 bits
+    function int arrayToInt(Array bitInt) {
+        var int i, sum;
+
+        let i = 0;
+        let sum = 0;
+        while (i < biteArraySize) {
+            if (bitInt[i]) {
+                let sum = sum + powersOfTwo[i];
+            }
+            let i = i + 1;
+        }
+
+        return sum;
+    }
+
+    // zero bit is flag
+    function Array getBitArray(int x) {
+        var Array bitArray;
+        var int i, sum, absX;
+
+        // init bits
+        let bitArray = Array.new(digitBitSize);
+        let i = 0;
+        while (i < digitBitSize) {
+            let bitArray[i] = false;
+            let i = i + 1;
+        }
+
+        if (x < 0) {
+            let bitArray[0] = true;
+        }
+
+        let i = Math.getIntBitLength(x);
+        let bitArray[i] = true;
+        let sum = powersOfTwo[i];
+
+        let absX = Math.abs(x);
+        while (sum < absX) {
+             while ((sum + powersOfTwo[i]) > x) {
+                let i = i - 1;
+            }
+
+            let sum = sum + powersOfTwo[i];
+            let bitArray[i] = true;
+        }
+
+        return bitArray;
+    }
+
+    function int getIntBitLength(int x) {
+        var int i, absX;
+
+        let absX = Math.abs(x);
+
+        let i = 0;
+        while (powersOfTwo[i] < absX) {
+            let i = i + 1;
+        }
+
+        if (i < 0) {
+            let i = i - 1;
+        }
+
+        return i;
+    }
+
+    function int abs(int x) {
+        var int absX;
+
+        let absX = x;
+        if (absX < 0) {
+            let absX = -absX;
+        }
+
+        return absX;
     }
 }
