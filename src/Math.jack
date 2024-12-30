@@ -30,11 +30,12 @@ class Math {
     }
 
     // x,y 16bit
-    function int multiplyBitArrays(Array x, Array y, int yInt) {
-        var int yLen, i, j, sum;
+    function int multiplyBitArrays(Array x, Array y, int yLen) {
+        var int i, j, sum;
         var Array supportArrays, tmp; // 15bit
 
-        let yLen = Math.getIntBitLength(yInt);
+        // [0, len]
+        let yLen = yLen + 1;
         let supportArrays = Array.new(yLen);
 
         let i = 0;
@@ -48,25 +49,27 @@ class Math {
                 let j = j + 1;
             }
 
-            let j = 1;
-            while ((j + i) < digitBitSize) {
+            let j = 0;
+            while ((j + i) < biteArraySize) {
                 let tmp = supportArrays[i];
                 
                 let sum = j + i;
-                let sum = sum - 1;
+                let sum = sum;
 
-                let tmp[sum] = x[j];
+                let tmp[sum] = x[j + 1];
+
                 let j = j + 1;
             }
 
             let i = i + 1;
         }
 
+
         let sum = 0;
         let i = 0;
-        while (i < (yLen + 1)) {
+        while (i < yLen) {
             if (y[i + 1]) {
-                let sum = sum + Math.arrayToInt(supportArrays[i], digitBitSize);
+                let sum = sum + Math.arrayToInt(supportArrays[i]);
             }
             let i = i + 1;
         }
@@ -135,10 +138,10 @@ class Math {
             let bitArray[0] = true;
         }
 
+        // without bit flag
         let i = Math.getIntBitLength(x);
-        let bitArray[i] = true;
+        let bitArray[i + 1] = true;
         let sum = powersOfTwo[i];
-
         let absX = Math.abs(x);
         while (sum < absX) {
              while ((sum + powersOfTwo[i]) > x) {
@@ -146,15 +149,20 @@ class Math {
             }
 
             let sum = sum + powersOfTwo[i];
-            let bitArray[i] = true;
+            let bitArray[i + 1] = true;
+        }
+
+        let i = 0;
+        while (i < digitBitSize) {
+            let i = i + 1;
         }
 
         return bitArray;
     }
 
+    // Длина без учета флага знака
     function int getIntBitLength(int x) {
         var int i, absX;
-
         let absX = Math.abs(x);
 
         let i = 0;
@@ -162,7 +170,7 @@ class Math {
             let i = i + 1;
         }
 
-        if (i < 0) {
+        if (powersOfTwo[i] > absX) {
             let i = i - 1;
         }
 
