@@ -1,15 +1,17 @@
-class MainMathTest.jack {
+class MainMathTest {
     function void main() {
         do Output.printString("Basic test");
         do Output.println();
         do Output.printString("Expected 8, got: ");
         do Output.printInt(Math.multiply(2,4));
         do Output.println();
+        do Output.println();
 
         do Output.printString("Negative test");
         do Output.println();
         do Output.printString("Expected -8, got: ");
         do Output.printInt(Math.multiply(-2,4));
+        do Output.println();
         do Output.println();
 
         do Output.printString("Double negative test");

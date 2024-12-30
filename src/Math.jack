@@ -121,7 +121,7 @@ class Math {
         return sum;
     }
 
-    // zero bit is flag
+    // output 16 bit, zero bit is sign flag
     function Array getBitArray(int x) {
         var Array bitArray;
         var int i, sum, absX;
