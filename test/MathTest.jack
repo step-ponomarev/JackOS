@@ -1,5 +1,17 @@
-class MainMathTest {
+class MathTest {
     function void main() {
+        do testMult();
+        return;
+    }
+
+    function void testMult() {
+        do Output.println();
+        do Output.printString("---------------");
+        do Output.println();
+        do Output.printString("Test multiply");
+        do Output.println();
+        do Output.println();
+
         do Output.printString("Basic test");
         do Output.println();
         do Output.printString("Expected 8, got: ");
