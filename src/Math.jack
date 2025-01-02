@@ -126,6 +126,7 @@ class Math {
         return (~(x < y)) & (~(x > y));
     }
 
+    //TODO: sqrt
     function int sqrt(int x) {
         return -1;
     }
@@ -202,14 +203,27 @@ class Math {
         return i;
     }
 
-    function int abs(int x) {
-        var int absX;
-
-        let absX = x;
-        if (absX < 0) {
-            let absX = -absX;
+    function int min(int a, int b) {
+        if (a > b) {
+            return b;
         }
 
-        return absX;
+        return a;
+    }
+
+    function int max(int a, int b) {
+        if (a > b) {
+            return a;
+        }
+
+        return b;
+    }
+
+    function int abs(int x) {
+        if (x < 0) {
+            return -x;
+        }
+
+        return x;
     }
 }
