@@ -1,10 +1,42 @@
-class MathTest {
+class Main {
     function void main() {
-        do testMult();
+        do testMultiply();
+        do testDevision();
         return;
     }
 
-    function void testMult() {
+    function void testDevision() {
+        do Output.println();
+        do Output.printString("---------------");
+        do Output.println();
+        do Output.printString("Test testDevision");
+        do Output.println();
+        do Output.println();
+
+        do Output.printString("Basic test");
+        do Output.println();
+        do Output.printString("Expected 8, got: ");
+        do Output.printInt(Math.devide(16,2));
+        do Output.println();
+
+        do Output.printString("Negative test");
+        do Output.println();
+        do Output.printString("Expected -1, got: ");
+        do Output.printInt(Math.devide(1, -1));
+        do Output.println();
+
+        do Output.printString("Double negative test");
+        do Output.println();
+        do Output.printString("Expected 1, got: ");
+        do Output.printInt(Math.devide(-1, -1));
+        do Output.println();
+
+        do Output.println();
+        do Output.printString("---------------");
+        do Output.println();
+    }
+
+    function void testMultiply() {
         do Output.println();
         do Output.printString("---------------");
         do Output.println();
@@ -30,6 +62,15 @@ class MathTest {
         do Output.println();
         do Output.printString("Expected 8, got: ");
         do Output.printInt(Math.multiply(-2, -4));
+        do Output.println();
+
+        do Output.printString("Zero test");
+        do Output.println();
+        do Output.printString("Expected 0, got: ");
+        do Output.printInt(Math.multiply(0, 12311));
+        
+        do Output.println();
+        do Output.printString("---------------");
         do Output.println();
 
         return;

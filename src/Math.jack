@@ -20,7 +20,7 @@ class Math {
         return;
     }
 
-    // пока в тупую
+    // TODO: Можно воткнуть оптимизацию если есть четные числа
     function int multiply(int x, int y) {
         return Math.multiplyBitArrays(
             Math.getBitArray(x), 
@@ -83,27 +83,52 @@ class Math {
         return sum;
     }
 
-    // function int devide(int x, int y) {
-    //     var int res, sum;
-    //     var Array xArr, yArr;
+    function int devide(int x, int y) {
+        var int res;
+        let res = Math.absDevide(x, y);
+        if ((x > 0) & (y > 0)) {
+            return res;
+        }
 
-    //     let xArr = Math.getBitArray(x);
-    //     let yArr = Math.getBitArray(y);
+        if ((x < 0) & (y < 0)) {
+            return res;
+        }
 
-    //     let res = 0;
-    //     let sum = x;
+        return -res;
+    }
 
-    //     while (sum > y) {
-    //         let sum = sum - y;
-    //         let res = res + 1;
-    //     }
+    function int absDevide(int x, int y) {
+        var int q, doubleY, tmp, res;
 
-    //     return res;
-    // }
+        let x = Math.abs(x);
+        let y = Math.abs(y);
+        if (x < y) {
+            return 0;
+        }
 
-    // function int sqrt(int x) {
-    //     return -1;
-    // }
+        if (Math.equals(x, y)) {
+            return 1;
+        }
+
+        let doubleY = Math.multiply(y, 2);
+        let q = Math.absDevide(x, doubleY);
+        let tmp = Math.multiply(doubleY, q);
+        
+        if ((x - tmp) < y) {
+            return Math.multiply(q, 2);
+        } else {
+            // в остатке у нас поместится по-крайней мере еще один y
+            return Math.multiply(q, 2) + 1;
+        }
+    }
+
+    function boolean equals(int x, int y) {
+        return (~(x < y)) & (~(x > y));
+    }
+
+    function int sqrt(int x) {
+        return -1;
+    }
 
     // bitInt 15 bits
     function int arrayToInt(Array bitInt) {
