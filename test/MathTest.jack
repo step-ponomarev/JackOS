@@ -1,78 +1,140 @@
 class Main {
     function void main() {
-        do testMultiply();
-        do testDevision();
+        // do testMultiply();
+        // do testDevision();
+        // do testSqrt();
+
         return;
     }
 
+     function void testSqrt() {
+        var int i, tmp, res;
+
+        let i = 7;
+        while (i < 25) {
+            let tmp = Math.multiply(i, i);
+            do Output.printString("multiply ");
+            do Output.printInt(tmp);
+            do Output.println();
+
+            let res = Math.sqrt(tmp);
+            do Output.printString("Expected: ");
+            do Output.printInt(i);
+            do Output.printString(" | got: ");
+            do Output.printInt(res);
+            do Output.println();
+
+            let i = i + 1;
+        }
+
+        return;
+     }
+
     function void testDevision() {
-        do Output.println();
-        do Output.printString("---------------");
-        do Output.println();
-        do Output.printString("Test testDevision");
-        do Output.println();
-        do Output.println();
+        var int i, j, expected, res;
 
-        do Output.printString("Basic test");
-        do Output.println();
-        do Output.printString("Expected 8, got: ");
-        do Output.printInt(Math.devide(16,2));
-        do Output.println();
+        let j = 1;
+        let i = -5;
+        while (i < 5) {
+            let expected = Main.nativeDiv(i, j);
+            let res = Math.devide(i, j);
+            do Output.printString("Expected: ");
+            do Output.printInt(expected);
+            do Output.printString(" | got: ");
+            do Output.printInt(res);
+            do Output.println();
+            
+            
+            let i = i + 1;
+            if (i = 0) {
+                let j = 1;
+            } else {
+                let j = j + 1;
+            }
+        }
 
-        do Output.printString("Negative test");
-        do Output.println();
-        do Output.printString("Expected -1, got: ");
-        do Output.printInt(Math.devide(1, -1));
-        do Output.println();
-
-        do Output.printString("Double negative test");
-        do Output.println();
-        do Output.printString("Expected 1, got: ");
-        do Output.printInt(Math.devide(-1, -1));
-        do Output.println();
-
-        do Output.println();
-        do Output.printString("---------------");
-        do Output.println();
+        return;
     }
 
     function void testMultiply() {
-        do Output.println();
-        do Output.printString("---------------");
-        do Output.println();
-        do Output.printString("Test multiply");
-        do Output.println();
-        do Output.println();
+        var int i, j, expected, res;
 
-        do Output.printString("Basic test");
-        do Output.println();
-        do Output.printString("Expected 8, got: ");
-        do Output.printInt(Math.multiply(2,4));
-        do Output.println();
-        do Output.println();
-
-        do Output.printString("Negative test");
-        do Output.println();
-        do Output.printString("Expected -8, got: ");
-        do Output.printInt(Math.multiply(-2,4));
-        do Output.println();
-        do Output.println();
-
-        do Output.printString("Double negative test");
-        do Output.println();
-        do Output.printString("Expected 8, got: ");
-        do Output.printInt(Math.multiply(-2, -4));
-        do Output.println();
-
-        do Output.printString("Zero test");
-        do Output.println();
-        do Output.printString("Expected 0, got: ");
-        do Output.printInt(Math.multiply(0, 12311));
-        
-        do Output.println();
-        do Output.printString("---------------");
-        do Output.println();
+        let j = 0;
+        let i = -5;
+        while (i < 5) {
+            let expected = Main.nativeMult(i, j);
+            let res = Math.multiply(i, j);
+            do Output.printString("Expected: ");
+            do Output.printInt(expected);
+            do Output.printString(" | got: ");
+            do Output.printInt(res);
+            do Output.println();
+            
+            
+            let i = i + 1;
+            let j = j + 1;
+        }
 
         return;
+    }
+
+    function int nativeDiv(int x, int y) {
+        var int i, res, absX, absY;
+
+        if (x < y) {
+            return 0;
+        }
+
+        if (x = 0) {
+            return 0;
+        }
+        
+        if (x = y) {
+            return 1;
+        }
+
+        let absX = Math.abs(x);
+        let absY = Math.abs(y);
+
+        let i = 0;
+        while (~(absX < 0)) {
+            let absX = absX - absY;
+            let i = i + 1;
+        }
+        let i = i - 1;
+
+        if ((x < 0) & (y < 0)) {
+            return i;
+        }
+
+        if ((x > 0) & (y > 0)) {
+            return i;
+        }
+
+        return -i;
+    }
+
+    function int nativeMult(int x, int y) {
+        var int i, res, absX, absY;
+        
+        let i = 0;
+        let res = 0;
+        let absX = Math.abs(x);
+        let absY = Math.abs(y);
+
+        while (i < absY) {
+            let res = res + absX;
+            let i = i + 1;
+        }
+
+        if ((x < 0) & (y < 0)) {
+            return res;
+        }
+
+        if ((x > 0) & (y > 0)) {
+            return res;
+        }
+
+        return -res;
     }
 }

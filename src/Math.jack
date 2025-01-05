@@ -1,18 +1,16 @@
 class Math {
-    static int biteArraySize; // 15
-    static int digitBitSize; // 16
+    static int CONST_15;
     static Array powersOfTwo;
 
     function void init() {
         var int i, j;
-        let biteArraySize = 15;
-        let digitBitSize = 16;
+        let CONST_15 = 15;
 
-        let powersOfTwo = Array.new(biteArraySize);
+        let powersOfTwo = Array.new(CONST_15);
         let powersOfTwo[0] = 1;
         
         let i = 1;
-        while (i < biteArraySize) {
+        while (i < CONST_15) {
             let powersOfTwo[i] = powersOfTwo[i - 1] + powersOfTwo[i - 1];
             let i = i + 1;
         }
@@ -21,42 +19,63 @@ class Math {
     }
 
     // TODO: Можно воткнуть оптимизацию если есть четные числа
+    // сдвиги 3 * 2 -> 11 * 01 -> 011
     function int multiply(int x, int y) {
-        return Math.multiplyBitArrays(
-            Math.getBitArray(x), 
-            Math.getBitArray(y),
-            Math.getIntBitLength(y)
+        var int absX, absY, res;
+        if ((x = 0) | (y = 0)) {
+            return 0;
+        }
+
+        let absX = Math.abs(x);
+        let absY = Math.abs(y);
+        let res = Math.multiplyBitArrays(
+            Math.getBitArray(absX), 
+            Math.getBitArray(absY)
         );
+
+        if ((x > 0) & (y > 0)) {
+            return res;
+        }
+
+        if ((x < 0) & (y < 0)) {
+            return res;
+        }
+
+        return -res;
     }
 
-    // x,y 16bit
-    function int multiplyBitArrays(Array x, Array y, int yLen) {
-        var int i, j, sum;
+    function int multiplyBitArrays(Array x, Array y) {
+        var int i, j, sum, yLen;
         var Array supportArrays, tmp; // 15bit
 
-        // [0, len]
+        let i = 0;
+        let yLen = 0;
+        while (i < CONST_15) {
+            if (y[i] & (i > yLen)) {
+                let yLen = i;
+            }
+            let i = i + 1;
+        }
         let yLen = yLen + 1;
-        let supportArrays = Array.new(yLen);
+        let supportArrays =  Array.new(yLen);
 
         let i = 0;
         while (i < yLen) {
-            let supportArrays[i] = Array.new(biteArraySize);
+            let supportArrays[i] = Array.new(CONST_15);
+            
             // init zero
             let j = 0;
             let tmp = supportArrays[i];
-            while (j < biteArraySize) {
+            while (j < CONST_15) {
                 let tmp[j] = 0;
                 let j = j + 1;
             }
 
             let j = 0;
-            while ((j + i) < biteArraySize) {
-                let tmp = supportArrays[i];
-                
+            let tmp = supportArrays[i];
+            while ((j + i) < CONST_15) {
                 let sum = j + i;
-                let sum = sum;
-
-                let tmp[sum] = x[j + 1];
+                let tmp[sum] = x[j];
 
                 let j = j + 1;
             }
@@ -64,20 +83,13 @@ class Math {
             let i = i + 1;
         }
 
-
         let sum = 0;
         let i = 0;
         while (i < yLen) {
-            if (y[i + 1]) {
+            if (y[i]) {
                 let sum = sum + Math.arrayToInt(supportArrays[i]);
             }
             let i = i + 1;
-        }
-
-        // negative
-        let i = x[0] + y[0];
-        if ((i > 0) & (i < 2)) {
-            let sum = -sum;
         }
 
         return sum;
@@ -85,6 +97,14 @@ class Math {
 
     function int devide(int x, int y) {
         var int res;
+        if (x = 0) {
+            return 0;
+        }
+
+        if (y = 1) {
+            return x;
+        }
+
         let res = Math.absDevide(x, y);
         if ((x > 0) & (y > 0)) {
             return res;
@@ -98,7 +118,7 @@ class Math {
     }
 
     function int absDevide(int x, int y) {
-        var int q, doubleY, tmp, res;
+        var int q, doubleY;
 
         let x = Math.abs(x);
         let y = Math.abs(y);
@@ -106,18 +126,16 @@ class Math {
             return 0;
         }
 
-        if (Math.equals(x, y)) {
+        if (x = y) {
             return 1;
         }
 
         let doubleY = Math.multiply(y, 2);
         let q = Math.absDevide(x, doubleY);
-        let tmp = Math.multiply(doubleY, q);
-        
-        if ((x - tmp) < y) {
+
+        if ((x - Math.multiply(doubleY, q)) < y) {
             return Math.multiply(q, 2);
         } else {
-            // в остатке у нас поместится по-крайней мере еще один y
             return Math.multiply(q, 2) + 1;
         }
     }
@@ -126,18 +144,41 @@ class Math {
         return (~(x < y)) & (~(x > y));
     }
 
-    //TODO: sqrt
     function int sqrt(int x) {
+        var int right, left, curr, power, tmp;
+        if ((x = 0) | (x = 1)) {
+            return x;
+        }
+
+        let right = Math.devide(x, 2);
+        let left = 2;
+        while ((right > left) | Math.equals(right, left)) {
+            let tmp = left + right;
+            let curr = Math.devide(tmp, 2);
+
+            let power = Math.multiply(curr, curr);
+            if (power < x) {
+                let left = curr + 1;
+            }
+
+            if (power > x) {
+                let right = curr - 1;
+            }
+
+            if (Math.equals(power, x)) {
+                return curr;
+            }
+        }
+
         return -1;
     }
 
-    // bitInt 15 bits
     function int arrayToInt(Array bitInt) {
         var int i, sum;
 
         let i = 0;
         let sum = 0;
-        while (i < biteArraySize) {
+        while (i < CONST_15) {
             if (bitInt[i]) {
                 let sum = sum + powersOfTwo[i];
             }
@@ -147,26 +188,21 @@ class Math {
         return sum;
     }
 
-    // output 16 bit, zero bit is sign flag
     function Array getBitArray(int x) {
         var Array bitArray;
         var int i, sum, absX;
 
         // init bits
-        let bitArray = Array.new(digitBitSize);
+        let bitArray = Array.new(CONST_15);
         let i = 0;
-        while (i < digitBitSize) {
+        while (i < CONST_15) {
             let bitArray[i] = false;
             let i = i + 1;
         }
 
-        if (x < 0) {
-            let bitArray[0] = true;
-        }
-
         // without bit flag
         let i = Math.getIntBitLength(x);
-        let bitArray[i + 1] = true;
+        let bitArray[i] = true;
         let sum = powersOfTwo[i];
         let absX = Math.abs(x);
         while (sum < absX) {
@@ -175,28 +211,21 @@ class Math {
             }
 
             let sum = sum + powersOfTwo[i];
-            let bitArray[i + 1] = true;
-        }
-
-        let i = 0;
-        while (i < digitBitSize) {
-            let i = i + 1;
+            let bitArray[i] = true;
         }
 
         return bitArray;
     }
 
-    // Длина без учета флага знака
     function int getIntBitLength(int x) {
-        var int i, absX;
-        let absX = Math.abs(x);
+        var int i;
 
         let i = 0;
-        while (powersOfTwo[i] < absX) {
+        while (powersOfTwo[i] < x) {
             let i = i + 1;
         }
 
-        if (powersOfTwo[i] > absX) {
+        if (powersOfTwo[i] > x) {
             let i = i - 1;
         }
 
